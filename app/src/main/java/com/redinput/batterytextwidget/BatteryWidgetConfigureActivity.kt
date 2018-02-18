@@ -44,8 +44,7 @@ class BatteryWidgetConfigureActivity : AppCompatActivity() {
             }
             prefs.saveWidgetStyle(mAppWidgetId, selection)
 
-            val batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-            BatteryWidget.updateAppWidget(this, AppWidgetManager.getInstance(this), mAppWidgetId, batteryStatus)
+            BatteryWidget.updateAppWidget(this, AppWidgetManager.getInstance(this), mAppWidgetId)
 
             val resultValue = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId)
             setResult(Activity.RESULT_OK, resultValue)
