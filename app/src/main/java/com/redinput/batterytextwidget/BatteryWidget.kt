@@ -5,6 +5,8 @@ import android.appwidget.AppWidgetProvider
 import android.content.*
 import android.os.BatteryManager
 import android.widget.RemoteViews
+import com.ibm.icu.text.RuleBasedNumberFormat
+import java.util.*
 
 class BatteryWidget : AppWidgetProvider() {
 
@@ -23,7 +25,7 @@ class BatteryWidget : AppWidgetProvider() {
     }
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
-        val batteryStatus = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        val batteryStatus = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId, batteryStatus)
         }
@@ -50,12 +52,23 @@ class BatteryWidget : AppWidgetProvider() {
         lateinit var batteryReceiver: BroadcastReceiver
 
         internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int, batteryStatus: Intent) {
-            val views = RemoteViews(context.getPackageName(), R.layout.battery_widget)
+            val views = RemoteViews(context.packageName, R.layout.battery_widget)
 
-            val level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
             val selection = prefs.getWidgetStyle(appWidgetId)
 
-            views.setTextViewText(R.id.appwidget_text, level.toString() + " - " + selection.name)
+            var level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+            val maxLevel = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+            level = (level * 100f / maxLevel).toInt()
+
+            val toWrite = when (selection) {
+                PreferenceHelper.WidgetStyle.TEXT -> {
+                    val formatter = RuleBasedNumberFormat(Locale.getDefault(), RuleBasedNumberFormat.SPELLOUT)
+                    formatter.format(level)
+                }
+                PreferenceHelper.WidgetStyle.NUMBER -> level.toString()
+            }
+
+            views.setTextViewText(R.id.appwidget_text, toWrite)
 
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
