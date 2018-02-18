@@ -12,6 +12,9 @@ class PreferenceHelper(context: Context) {
         NUMBER
     }
 
+    val BATTERY_LEVEL = "battery-level"
+    val BATTERY_STATUS = "battery-status"
+
     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     fun saveWidgetStyle(mAppWidgetId: Int, style: WidgetStyle) {
@@ -22,5 +25,14 @@ class PreferenceHelper(context: Context) {
         val style = sharedPreferences.getInt("widget-style-$mAppWidgetId", WidgetStyle.TEXT.ordinal)
         return WidgetStyle.values()[style]
     }
+
+    var batteryLevel: Int
+        get() = sharedPreferences.getInt(BATTERY_LEVEL, -1)
+        set(value) = sharedPreferences.edit().putInt(BATTERY_LEVEL, value).apply()
+
+    var batteryStatus: Int
+        get() = sharedPreferences.getInt(BATTERY_STATUS, -1)
+        set(value) = sharedPreferences.edit().putInt(BATTERY_STATUS, value).apply()
+
 
 }
