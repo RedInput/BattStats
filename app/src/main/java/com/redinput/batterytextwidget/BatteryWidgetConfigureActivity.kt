@@ -2,6 +2,8 @@ package com.redinput.batterytextwidget
 
 import android.app.Activity
 import android.appwidget.AppWidgetManager
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.battery_widget_configure.*
@@ -30,7 +32,25 @@ class BatteryWidgetConfigureActivity : AppCompatActivity() {
             return
         }
 
+        cancelWidget.setOnClickListener { finish() }
 
+        saveWidget.setOnClickListener {
+            val selectedId = radioGroup.checkedRadioButtonId
+            var selection = PreferenceHelper.WidgetStyle.TEXT
+            if (selectedId == radioNumber.id) {
+                selection = PreferenceHelper.WidgetStyle.NUMBER
+            } else if (selectedId == radioText.id) {
+                selection = PreferenceHelper.WidgetStyle.TEXT
+            }
+            prefs.saveWidgetStyle(mAppWidgetId, selection)
+
+            val batteryStatus = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+            BatteryWidget.updateAppWidget(this, AppWidgetManager.getInstance(this), mAppWidgetId, batteryStatus)
+
+            val resultValue = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId)
+            setResult(Activity.RESULT_OK, resultValue)
+            finish()
+        }
     }
 
 }
