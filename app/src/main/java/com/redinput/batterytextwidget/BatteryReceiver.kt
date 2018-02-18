@@ -1,8 +1,11 @@
 package com.redinput.batterytextwidget
 
+import android.appwidget.AppWidgetManager
 import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+
 
 class BatteryReceiver : BroadcastReceiver() {
 
@@ -22,7 +25,11 @@ class BatteryReceiver : BroadcastReceiver() {
             prefs.batteryLevel = level
             prefs.batteryStatus = status
 
-            context.sendBroadcast(Intent(BatteryWidget.ACTION_UPDATE_WIDGETS))
+            val manager = AppWidgetManager.getInstance(context)
+            val ids = manager.getAppWidgetIds(ComponentName(context, BatteryWidget::class.java))
+            ids.forEach {
+                BatteryWidget.updateAppWidget(context, manager, it)
+            }
         }
     }
 
