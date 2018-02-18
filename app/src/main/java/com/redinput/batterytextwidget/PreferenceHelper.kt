@@ -3,21 +3,24 @@ package com.redinput.batterytextwidget
 import android.content.Context
 import android.preference.PreferenceManager
 
-// Class based in this blog post: http://blog.teamtreehouse.com/making-sharedpreferences-easy-with-kotlin
+// Loosely based in this blog post: http://blog.teamtreehouse.com/making-sharedpreferences-easy-with-kotlin
 
 class PreferenceHelper(context: Context) {
 
-    enum class ShowStyle(val value: Int) {
-        TEXT(0),
-        NUMBER(1)
+    enum class WidgetStyle {
+        TEXT,
+        NUMBER
     }
 
-    val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+    val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
-    val SHOW_STYLE = "show_style"
+    fun saveWidgetStyle(mAppWidgetId: Int, style: WidgetStyle) {
+        sharedPreferences.edit().putInt("widget-style-$mAppWidgetId", style.ordinal).apply()
+    }
 
-    var bgcolor
-        get() = prefs.getInt(SHOW_STYLE, ShowStyle.TEXT.value)
-        set(value) = prefs.edit().putInt(SHOW_STYLE, value).apply()
+    fun getWidgetStyle(mAppWidgetId: Int): WidgetStyle {
+        val style = sharedPreferences.getInt("widget-style-$mAppWidgetId", WidgetStyle.TEXT.ordinal)
+        return WidgetStyle.values()[style]
+    }
 
 }
