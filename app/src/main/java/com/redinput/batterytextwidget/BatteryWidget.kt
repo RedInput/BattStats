@@ -2,12 +2,8 @@ package com.redinput.batterytextwidget
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.os.BatteryManager
-import android.util.Log
 import android.widget.RemoteViews
 
 class BatteryWidget : AppWidgetProvider() {
@@ -40,20 +36,18 @@ class BatteryWidget : AppWidgetProvider() {
     }
 
     override fun onEnabled(context: Context) {
-        val batteryReceiver = BatteryWidget()
+        batteryReceiver = BatteryWidget()
         val intentFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-        Log.d("asdasdasd",batteryReceiver.toString())
         context.applicationContext.registerReceiver(batteryReceiver, intentFilter)
-
     }
 
     override fun onDisabled(context: Context) {
-        val batteryReceiver = BatteryWidget()
-        Log.d("asdasdasd",batteryReceiver.toString())
         context.applicationContext.unregisterReceiver(batteryReceiver)
     }
 
     companion object {
+
+        lateinit var batteryReceiver: BroadcastReceiver
 
         internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int, batteryStatus: Intent) {
             val views = RemoteViews(context.getPackageName(), R.layout.battery_widget)
