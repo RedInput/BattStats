@@ -13,4 +13,5 @@
     <string name="pref_label_style">What style do you want for the widget?</string>
     <string name="pref_background">Do you want to show a background?</string>
     <string name="pref_behaviour">Do you want to open Battery Usage Screen when clicked the widget?</string>
+    <string name="description_background">background</string>
 </resources>
