@@ -3,7 +3,6 @@ package com.redinput.batterytextwidget
 import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.battery_widget_configure.*
@@ -42,7 +41,10 @@ class BatteryWidgetConfigureActivity : AppCompatActivity() {
             } else if (selectedId == radioText.id) {
                 selection = PreferenceHelper.WidgetStyle.TEXT
             }
+
             prefs.saveWidgetStyle(mAppWidgetId, selection)
+            prefs.saveWidgetBackground(mAppWidgetId, background.isChecked)
+            prefs.saveWidgetBehaviour(mAppWidgetId, behaviourUsage.isChecked)
 
             BatteryWidget.updateAppWidget(this, AppWidgetManager.getInstance(this), mAppWidgetId)
 
@@ -53,4 +55,3 @@ class BatteryWidgetConfigureActivity : AppCompatActivity() {
     }
 
 }
-
