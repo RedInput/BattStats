@@ -1,4 +1,4 @@
-package com.redinput.batterytextwidget
+package com.redinput.battstats
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel

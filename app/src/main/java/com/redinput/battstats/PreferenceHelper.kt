@@ -1,4 +1,4 @@
-package com.redinput.batterytextwidget
+package com.redinput.battstats
 
 import android.content.Context
 import android.preference.PreferenceManager

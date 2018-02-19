@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Battery Text Widget</string>
     <string name="appwidget_text">EXAMPLE</string>
+    <string name="app_name">BattStats</string>
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
     <string name="pref_style_text">Show text</string>
