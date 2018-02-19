@@ -12,7 +12,6 @@ import android.os.Build
 import android.os.IBinder
 import android.support.v4.app.NotificationCompat
 
-
 class BatteryService : Service() {
 
     companion object {
