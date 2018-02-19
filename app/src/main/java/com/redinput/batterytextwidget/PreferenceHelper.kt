@@ -3,7 +3,7 @@ package com.redinput.batterytextwidget
 import android.content.Context
 import android.preference.PreferenceManager
 
-// Loosely based in this blog post: http://blog.teamtreehouse.com/making-sharedpreferences-easy-with-kotlin
+// Based in this blog post: http://blog.teamtreehouse.com/making-sharedpreferences-easy-with-kotlin
 
 class PreferenceHelper(context: Context) {
 
@@ -26,6 +26,10 @@ class PreferenceHelper(context: Context) {
         return WidgetStyle.values()[style]
     }
 
+    fun removeWidgetStyle(mAppWidgetId: Int) {
+        sharedPreferences.edit().remove("widget-style-$mAppWidgetId").apply()
+    }
+
     var batteryLevel: Int
         get() = sharedPreferences.getInt(BATTERY_LEVEL, -1)
         set(value) = sharedPreferences.edit().putInt(BATTERY_LEVEL, value).apply()
@@ -33,6 +37,5 @@ class PreferenceHelper(context: Context) {
     var batteryStatus: Int
         get() = sharedPreferences.getInt(BATTERY_STATUS, -1)
         set(value) = sharedPreferences.edit().putInt(BATTERY_STATUS, value).apply()
-
 
 }
