@@ -7,4 +7,7 @@
     <string name="radio_number">Show number</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
+    <string name="notification_title">Checking battery</string>
+    <string name="service_channel_name">Battery check service</string>
+    <string name="service_channel_description">This notification is needed to get battery stats from your device</string>
 </resources>
