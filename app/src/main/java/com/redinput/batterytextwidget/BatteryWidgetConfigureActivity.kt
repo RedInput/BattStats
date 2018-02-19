@@ -5,7 +5,9 @@ import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import kotlinx.android.synthetic.main.battery_widget_configure.*
+
 
 class BatteryWidgetConfigureActivity : AppCompatActivity() {
 
@@ -30,6 +32,17 @@ class BatteryWidgetConfigureActivity : AppCompatActivity() {
             finish()
             return
         }
+
+        val powerUsageIntent = Intent(Intent.ACTION_POWER_USAGE_SUMMARY)
+        val resolveInfo = packageManager.resolveActivity(powerUsageIntent, 0)
+        if (resolveInfo != null) {
+            behaviourUsage.visibility = View.VISIBLE
+            behaviourUsage.isChecked = true
+        } else {
+            behaviourUsage.visibility = View.GONE
+            behaviourUsage.isChecked = false
+        }
+
 
         cancelWidget.setOnClickListener { finish() }
 
