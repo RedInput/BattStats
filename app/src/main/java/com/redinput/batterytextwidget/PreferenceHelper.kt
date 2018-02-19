@@ -15,19 +15,47 @@ class PreferenceHelper(context: Context) {
     val BATTERY_LEVEL = "battery-level"
     val BATTERY_STATUS = "battery-status"
 
+    val PREF_WIDGET_STYLE = "widget-style-"
+    val PREF_WIDGET_BACKGROUND = "widget-background-"
+    val PREF_WIDGET_BEHAVIOUR = "widget-behaviour-"
+
     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     fun saveWidgetStyle(mAppWidgetId: Int, style: WidgetStyle) {
-        sharedPreferences.edit().putInt("widget-style-$mAppWidgetId", style.ordinal).apply()
+        sharedPreferences.edit().putInt(PREF_WIDGET_STYLE + mAppWidgetId, style.ordinal).apply()
     }
 
     fun getWidgetStyle(mAppWidgetId: Int): WidgetStyle {
-        val style = sharedPreferences.getInt("widget-style-$mAppWidgetId", WidgetStyle.TEXT.ordinal)
+        val style = sharedPreferences.getInt(PREF_WIDGET_STYLE + mAppWidgetId, WidgetStyle.TEXT.ordinal)
         return WidgetStyle.values()[style]
     }
 
     fun removeWidgetStyle(mAppWidgetId: Int) {
-        sharedPreferences.edit().remove("widget-style-$mAppWidgetId").apply()
+        sharedPreferences.edit().remove(PREF_WIDGET_STYLE + mAppWidgetId).apply()
+    }
+
+    fun saveWidgetBackground(mAppWidgetId: Int, enabled: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_WIDGET_BACKGROUND + mAppWidgetId, enabled).apply()
+    }
+
+    fun getWidgetBackground(mAppWidgetId: Int): Boolean {
+        return sharedPreferences.getBoolean(PREF_WIDGET_BACKGROUND + mAppWidgetId, true)
+    }
+
+    fun removeWidgetBackground(mAppWidgetId: Int) {
+        sharedPreferences.edit().remove(PREF_WIDGET_BACKGROUND + mAppWidgetId).apply()
+    }
+
+    fun saveWidgetBehaviour(mAppWidgetId: Int, enabled: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_WIDGET_BEHAVIOUR + mAppWidgetId, enabled).apply()
+    }
+
+    fun getWidgetBehaviour(mAppWidgetId: Int): Boolean {
+        return sharedPreferences.getBoolean(PREF_WIDGET_BEHAVIOUR + mAppWidgetId, true)
+    }
+
+    fun removeWidgetBehaviour(mAppWidgetId: Int) {
+        sharedPreferences.edit().remove(PREF_WIDGET_BEHAVIOUR + mAppWidgetId).apply()
     }
 
     var batteryLevel: Int
