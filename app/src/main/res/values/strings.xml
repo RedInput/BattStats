@@ -1,17 +1,20 @@
 <resources>
-    <string name="appwidget_text">EXAMPLE</string>
+
     <string name="app_name">BattStats</string>
     <string name="configure">Configure</string>
-    <string name="add_widget">Add widget</string>
+
+    <string name="description_background">background</string>
+
+    <string name="pref_label_style">What style do you want for the widget?</string>
     <string name="pref_style_text">Show text</string>
     <string name="pref_style_number">Show number</string>
+    <string name="pref_background">Do you want to show a background?</string>
+    <string name="pref_behaviour">Do you want to open Battery Usage Screen when clicked the widget?</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
+
     <string name="notification_title">Checking battery</string>
     <string name="service_channel_name">Battery check service</string>
     <string name="service_channel_description">This notification is needed to get battery stats from your device</string>
-    <string name="pref_label_style">What style do you want for the widget?</string>
-    <string name="pref_background">Do you want to show a background?</string>
-    <string name="pref_behaviour">Do you want to open Battery Usage Screen when clicked the widget?</string>
-    <string name="description_background">background</string>
+
 </resources>
