@@ -4,7 +4,7 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
+import android.os.Build
 import android.widget.RemoteViews
 import com.ibm.icu.text.RuleBasedNumberFormat
 import java.util.*
@@ -19,16 +19,20 @@ class BatteryWidget : AppWidgetProvider() {
 
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {
         for (appWidgetId in appWidgetIds) {
-            // TODO remove widget prefs
+            prefs.removeWidgetStyle(appWidgetId)
         }
     }
 
     override fun onEnabled(context: Context) {
-        context.applicationContext.registerReceiver(receiver, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(Intent(context, BatteryService::class.java))
+        } else {
+            context.startService(Intent(context, BatteryService::class.java))
+        }
     }
 
     override fun onDisabled(context: Context) {
-        context.applicationContext.unregisterReceiver(receiver)
+        context.stopService(Intent(context, BatteryService::class.java))
     }
 
     companion object {
