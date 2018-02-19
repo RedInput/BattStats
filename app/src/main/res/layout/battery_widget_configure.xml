@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".BatteryWidgetConfigureActivity">
 
     <android.support.v7.widget.Toolbar
@@ -15,33 +16,60 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        android:padding="8dp">
 
-        <RadioButton
-            android:id="@+id/radioText"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/radio_text" />
+            android:layout_marginTop="8dp"
+            android:text="@string/pref_label_style" />
 
-        <RadioButton
-            android:id="@+id/radioNumber"
+        <RadioGroup
+            android:id="@+id/radioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/radio_number" />
-    </RadioGroup>
+            android:layout_marginStart="16dp"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/radioText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pref_style_text" />
+
+            <RadioButton
+                android:id="@+id/radioNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pref_style_number" />
+        </RadioGroup>
+
+        <CheckBox
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/pref_background" />
+
+        <CheckBox
+            android:id="@+id/behaviourUsage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/pref_behaviour" />
+
+    </LinearLayout>
 
     <LinearLayout
         style="?buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/cancelWidget"
@@ -60,4 +88,4 @@
             android:text="@string/save" />
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
