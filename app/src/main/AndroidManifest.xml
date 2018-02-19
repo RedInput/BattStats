@@ -33,7 +33,11 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/battery_widget_info" />
         </receiver>
-        <receiver android:name=".BatteryReceiver" />
+        <receiver android:name=".BatteryReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".BatteryService"

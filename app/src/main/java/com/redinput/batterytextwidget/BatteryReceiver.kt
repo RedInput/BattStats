@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 
 
 class BatteryReceiver : BroadcastReceiver() {
@@ -25,10 +26,21 @@ class BatteryReceiver : BroadcastReceiver() {
             prefs.batteryLevel = level
             prefs.batteryStatus = status
 
-            val manager = AppWidgetManager.getInstance(context)
-            val ids = manager.getAppWidgetIds(ComponentName(context, BatteryWidget::class.java))
-            ids.forEach {
-                BatteryWidget.updateAppWidget(context, manager, it)
+            // Launch intent to update all appwidgets
+            val intentUpdate = Intent(context, BatteryWidget::class.java)
+            intentUpdate.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
+            val widgetManager = AppWidgetManager.getInstance(context)
+            val ids = widgetManager.getAppWidgetIds(ComponentName(context, BatteryWidget::class.java))
+            intentUpdate.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+            context.sendBroadcast(intentUpdate)
+
+        } else if (Intent.ACTION_MY_PACKAGE_REPLACED.equals(action)) {
+            if (!BatteryService.isRunning) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    context.startForegroundService(Intent(context, BatteryService::class.java))
+                } else {
+                    context.startService(Intent(context, BatteryService::class.java))
+                }
             }
         }
     }
