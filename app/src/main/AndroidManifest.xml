@@ -35,6 +35,10 @@
         </receiver>
         <receiver android:name=".BatteryReceiver" />
 
+        <service
+            android:name=".BatteryService"
+            android:exported="false" />
+
         <activity android:name=".BatteryWidgetConfigureActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
