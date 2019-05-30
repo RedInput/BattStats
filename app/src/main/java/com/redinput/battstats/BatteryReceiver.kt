@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.BatteryManager
 import android.os.Build
 
 class BatteryReceiver : BroadcastReceiver() {
@@ -13,9 +14,9 @@ class BatteryReceiver : BroadcastReceiver() {
         val action = intent.action
         if (Intent.ACTION_BATTERY_CHANGED.equals(action)) {
 
-            val rawLevel = intent.getIntExtra("level", -1)
-            val scale = intent.getIntExtra("scale", -1)
-            val status = intent.getIntExtra("status", -1)
+            val rawLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+            val scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+            val status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
 
             var level = -1
             if (rawLevel >= 0 && scale > 0) {
