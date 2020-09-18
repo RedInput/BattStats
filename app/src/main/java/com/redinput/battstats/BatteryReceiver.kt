@@ -6,7 +6,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.BatteryManager
-import android.os.Build
+import androidx.core.content.ContextCompat
 
 class BatteryReceiver : BroadcastReceiver() {
 
@@ -35,12 +35,9 @@ class BatteryReceiver : BroadcastReceiver() {
             context.sendBroadcast(intentUpdate)
 
         } else if (Intent.ACTION_MY_PACKAGE_REPLACED.equals(action)) {
-            if (!BatteryService.isRunning) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    context.startForegroundService(Intent(context, BatteryService::class.java))
-                } else {
-                    context.startService(Intent(context, BatteryService::class.java))
-                }
+            if (!BatteryService.isRunning(context)) {
+                val intentService = Intent(context, BatteryService::class.java)
+                ContextCompat.startForegroundService(context, intentService)
             }
         }
     }

@@ -5,9 +5,9 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
+import androidx.core.content.ContextCompat
 import com.ibm.icu.text.RuleBasedNumberFormat
 import java.util.*
 
@@ -28,11 +28,8 @@ class BatteryWidget : AppWidgetProvider() {
     }
 
     override fun onEnabled(context: Context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            context.startForegroundService(Intent(context, BatteryService::class.java))
-        } else {
-            context.startService(Intent(context, BatteryService::class.java))
-        }
+        val intentService = Intent(context, BatteryService::class.java)
+        ContextCompat.startForegroundService(context, intentService)
     }
 
     override fun onDisabled(context: Context) {
