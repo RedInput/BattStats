@@ -1,10 +1,7 @@
 package com.redinput.battstats
 
 import android.annotation.SuppressLint
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -15,7 +12,15 @@ import androidx.core.app.NotificationCompat
 class BatteryService : Service() {
 
     companion object {
-        var isRunning = false
+        fun isRunning(context: Context): Boolean {
+            val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+            for (service in manager.getRunningServices(Int.MAX_VALUE)) {
+                if (BatteryService::class.java.name == service.service.className) {
+                    return true
+                }
+            }
+            return false
+        }
     }
 
     val NOTIFICATION_ID = 1004
@@ -26,16 +31,12 @@ class BatteryService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-        if (!isRunning) {
-            showForegroundNotification()
+        showForegroundNotification()
 
-            val receiverFilter = IntentFilter()
-            receiverFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
-            receiver = BatteryReceiver()
-            registerReceiver(receiver, receiverFilter)
-
-            isRunning = true
-        }
+        val receiverFilter = IntentFilter()
+        receiverFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
+        receiver = BatteryReceiver()
+        registerReceiver(receiver, receiverFilter)
     }
 
     @SuppressLint("NewApi")
@@ -64,8 +65,6 @@ class BatteryService : Service() {
     override fun onDestroy() {
         unregisterReceiver(receiver)
         stopForeground(true)
-
-        isRunning = false
 
         super.onDestroy()
     }
