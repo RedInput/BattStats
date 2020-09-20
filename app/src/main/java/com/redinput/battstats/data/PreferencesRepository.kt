@@ -22,15 +22,15 @@ class PreferencesRepository private constructor(context: Context) : PreferencesS
         preferences.edit().putString(KEY_WIDGET_CONFIG_PREFIX + info.id, json).apply()
     }
 
-    override fun loadWidgetInfo(id: Int): Widget.Config? {
-        val json = preferences.getString(KEY_WIDGET_CONFIG_PREFIX + id, null)
+    override fun loadWidgetInfo(widgetId: Int): Widget.Config? {
+        val json = preferences.getString(KEY_WIDGET_CONFIG_PREFIX + widgetId, null)
         if (json != null) {
             return moshiWidget.fromJson(json)
         }
         return null
     }
 
-    override fun removeWidgetInfo(id: Int) {
-        preferences.edit().remove(KEY_WIDGET_CONFIG_PREFIX + id).apply()
+    override fun removeWidgetInfo(widgetId: Int) {
+        preferences.edit().remove(KEY_WIDGET_CONFIG_PREFIX + widgetId).apply()
     }
 }
