@@ -15,17 +15,17 @@ class PreferencesRepository private constructor(context: Context) : PreferencesS
     private val preferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     private val moshi = Moshi.Builder().build()
-    private val moshiWidget = moshi.adapter(Widget.Config::class.java)
+    private val moshiWidgetConfig = moshi.adapter(Widget.Config::class.java)
 
     override fun saveWidgetInfo(info: Widget.Config) {
-        val json = moshiWidget.toJson(info)
+        val json = moshiWidgetConfig.toJson(info)
         preferences.edit().putString(KEY_WIDGET_CONFIG_PREFIX + info.id, json).apply()
     }
 
     override fun loadWidgetInfo(widgetId: Int): Widget.Config? {
         val json = preferences.getString(KEY_WIDGET_CONFIG_PREFIX + widgetId, null)
         if (json != null) {
-            return moshiWidget.fromJson(json)
+            return moshiWidgetConfig.fromJson(json)
         }
         return null
     }
