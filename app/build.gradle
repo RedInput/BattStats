@@ -2,14 +2,18 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+final VERSION_CODE = 1
+final VERSION_NAME = '0.1'
+
 android {
     compileSdkVersion 30
     defaultConfig {
         applicationId "com.redinput.battstats"
         minSdkVersion 14
         targetSdkVersion 30
-        versionCode 1
-        versionName "0.1"
+        versionCode VERSION_CODE
+        versionName VERSION_NAME
+        resValue "string", "app_version", VERSION_NAME + " [" + VERSION_CODE + "]"
     }
     buildTypes {
         release {
