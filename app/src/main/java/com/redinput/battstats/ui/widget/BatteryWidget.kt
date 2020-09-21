@@ -24,7 +24,7 @@ class BatteryWidget : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         val prefRepository = PreferencesRepository.getInstance(context)
-        val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val batteryIntent = context.applicationContext.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         for (appWidgetId in appWidgetIds) {
             LoadWidgetConfig(prefRepository).invoke(
