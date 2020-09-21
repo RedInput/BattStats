@@ -5,12 +5,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-abstract class UseCase<out Type, in Params>(private val scope: CoroutineScope) where Type : Any {
+abstract class UseCase<out Type, in Params> where Type : Any {
 
     abstract suspend fun run(params: Params): Result
 
     operator fun invoke(params: Params, onResult: (Result) -> Unit = {}) {
-        val job = scope.async(Dispatchers.IO) { run(params) }
+        val scope = CoroutineScope(Dispatchers.IO)
+        val job = scope.async { run(params) }
         scope.launch(Dispatchers.Main) { onResult(job.await()) }
     }
 
