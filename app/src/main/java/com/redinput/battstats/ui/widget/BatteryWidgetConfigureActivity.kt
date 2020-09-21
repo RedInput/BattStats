@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.redinput.battstats.R
 import com.redinput.battstats.Widget
+import com.redinput.battstats.data.PreferencesRepository
+import com.redinput.battstats.domain.SaveWidgetConfig
 import kotlinx.android.synthetic.main.battery_widget_configure.*
 
 class BatteryWidgetConfigureActivity : AppCompatActivity() {
@@ -54,6 +56,9 @@ class BatteryWidgetConfigureActivity : AppCompatActivity() {
             val textColor = ContextCompat.getColor(this, R.color.white)
             val bgColor = ContextCompat.getColor(this, R.color.black)
             val widgetConfig = Widget.Config(mAppWidgetId, showAsText, textColor, background.isChecked, bgColor, Widget.ActionType.BATTERY)
+
+            val prefRepository = PreferencesRepository.getInstance(this)
+            SaveWidgetConfig(prefRepository).invoke(widgetConfig)
 
             BatteryWidget.updateAppWidget(this, AppWidgetManager.getInstance(this), mAppWidgetId, batteryIntent, widgetConfig)
 
