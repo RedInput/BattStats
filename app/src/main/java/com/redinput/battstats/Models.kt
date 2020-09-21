@@ -7,7 +7,16 @@ class Widget {
     @JsonClass(generateAdapter = true)
     data class Config(
         val id: Int,
+        val asText: Boolean,
         @ColorInt val textColor: Int,
-        @ColorInt val backgroundColor: Int
+        val showBackground: Boolean,
+        @ColorInt val backgroundColor: Int,
+        val actionType: ActionType
     )
+
+    enum class ActionType {
+        BATTERY,
+        CONFIG,
+        NONE
+    }
 }
