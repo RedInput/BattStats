@@ -1,4 +1,4 @@
-package com.redinput.battstats
+package com.redinput.battstats.service
 
 import android.annotation.SuppressLint
 import android.app.*
@@ -8,47 +8,36 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import com.redinput.battstats.R
 
 class BatteryService : Service() {
 
-    companion object {
-        fun isRunning(context: Context): Boolean {
-            val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-            for (service in manager.getRunningServices(Int.MAX_VALUE)) {
-                if (BatteryService::class.java.name == service.service.className) {
-                    return true
-                }
-            }
-            return false
-        }
-    }
-
-    val NOTIFICATION_ID = 1004
-    val NOTIFICATION_CHANNEL_ID = "foreground-service"
-
-    lateinit var receiver: BatteryReceiver
+    private val receiver = BatteryReceiver()
 
     override fun onCreate() {
         super.onCreate()
 
         showForegroundNotification()
 
-        val receiverFilter = IntentFilter()
-        receiverFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
-        receiver = BatteryReceiver()
+        val receiverFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
         registerReceiver(receiver, receiverFilter)
     }
 
-    @SuppressLint("NewApi")
     private fun showForegroundNotification() {
+        createChannel()
+
         val notificationIntent = Intent()
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
         val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_battery)
-                .setContentTitle(getString(R.string.notification_title))
-                .setContentIntent(pendingIntent)
+            .setSmallIcon(R.drawable.ic_battery)
+            .setContentTitle(getString(R.string.notification_title))
+            .setContentIntent(pendingIntent)
         val notification = builder.build()
 
+        startForeground(NOTIFICATION_ID, notification)
+    }
+
+    private fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, getString(R.string.service_channel_name), NotificationManager.IMPORTANCE_LOW)
             channel.description = getString(R.string.service_channel_description)
@@ -58,8 +47,6 @@ class BatteryService : Service() {
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
-
-        startForeground(NOTIFICATION_ID, notification)
     }
 
     override fun onDestroy() {
@@ -73,4 +60,19 @@ class BatteryService : Service() {
         return null
     }
 
+    companion object {
+        private const val NOTIFICATION_ID = 1004
+        private const val NOTIFICATION_CHANNEL_ID = "foreground-service"
+
+        @Suppress("DEPRECATION")
+        fun isRunning(context: Context): Boolean {
+            val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+            for (service in manager.getRunningServices(Int.MAX_VALUE)) {
+                if (BatteryService::class.java.name == service.service.className) {
+                    return true
+                }
+            }
+            return false
+        }
+    }
 }
