@@ -1,11 +1,15 @@
-package com.redinput.battstats
+package com.redinput.battstats.ui.widget
 
 import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.redinput.battstats.R
+import com.redinput.battstats.Widget
 import kotlinx.android.synthetic.main.battery_widget_configure.*
 
 class BatteryWidgetConfigureActivity : AppCompatActivity() {
@@ -20,10 +24,8 @@ class BatteryWidgetConfigureActivity : AppCompatActivity() {
         setResult(Activity.RESULT_CANCELED)
 
         // Find the widget id from the intent.
-        val intent = getIntent()
-        val extras = intent.getExtras()
-        if (extras != null) {
-            mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+        if (intent.extras != null) {
+            mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
         }
 
         // If this activity was started with an intent without an app widget ID, finish with an error.
@@ -46,19 +48,14 @@ class BatteryWidgetConfigureActivity : AppCompatActivity() {
         cancelWidget.setOnClickListener { finish() }
 
         saveWidget.setOnClickListener {
-            val selectedId = radioGroup.checkedRadioButtonId
-            var selection = PreferenceHelper.WidgetStyle.TEXT
-            if (selectedId == radioNumber.id) {
-                selection = PreferenceHelper.WidgetStyle.NUMBER
-            } else if (selectedId == radioText.id) {
-                selection = PreferenceHelper.WidgetStyle.TEXT
-            }
+            val batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
-            prefs.saveWidgetStyle(mAppWidgetId, selection)
-            prefs.saveWidgetBackground(mAppWidgetId, background.isChecked)
-            prefs.saveWidgetBehaviour(mAppWidgetId, behaviourUsage.isChecked)
+            val showAsText = radioGroup.checkedRadioButtonId == R.id.radioText
+            val textColor = ContextCompat.getColor(this, R.color.white)
+            val bgColor = ContextCompat.getColor(this, R.color.black)
+            val widgetConfig = Widget.Config(mAppWidgetId, showAsText, textColor, background.isChecked, bgColor, Widget.ActionType.BATTERY)
 
-            BatteryWidget.updateAppWidget(this, AppWidgetManager.getInstance(this), mAppWidgetId)
+            BatteryWidget.updateAppWidget(this, AppWidgetManager.getInstance(this), mAppWidgetId, batteryIntent, widgetConfig)
 
             val resultValue = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId)
             setResult(Activity.RESULT_OK, resultValue)

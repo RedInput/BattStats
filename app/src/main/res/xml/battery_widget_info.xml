@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:configure="com.redinput.battstats.BatteryWidgetConfigureActivity"
+    android:configure="com.redinput.battstats.ui.widget.BatteryWidgetConfigureActivity"
     android:initialKeyguardLayout="@layout/battery_widget"
     android:initialLayout="@layout/battery_widget"
     android:minHeight="40dp"
