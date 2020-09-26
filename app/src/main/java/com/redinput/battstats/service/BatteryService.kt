@@ -1,7 +1,9 @@
 package com.redinput.battstats.service
 
-import android.annotation.SuppressLint
-import android.app.*
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -63,16 +65,5 @@ class BatteryService : Service() {
     companion object {
         private const val NOTIFICATION_ID = 1004
         private const val NOTIFICATION_CHANNEL_ID = "foreground-service"
-
-        @Suppress("DEPRECATION")
-        fun isRunning(context: Context): Boolean {
-            val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-            for (service in manager.getRunningServices(Int.MAX_VALUE)) {
-                if (BatteryService::class.java.name == service.service.className) {
-                    return true
-                }
-            }
-            return false
-        }
     }
 }
