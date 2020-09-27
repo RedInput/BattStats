@@ -5,7 +5,9 @@
     <color name="colorPrimaryDark">#1B5E20</color>
     <color name="colorAccent">#FF9100</color>
 
+    <color name="default_bg_color">#7F000000</color>
+    <color name="default_text_color">#FFFFFF</color>
+
     <color name="white">#FFFFFF</color>
-    <color name="black">#7F000000</color>
 
 </resources>
