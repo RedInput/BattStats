@@ -3,69 +3,93 @@ package com.redinput.battstats.ui.widget
 import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
-import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import com.ibm.icu.text.RuleBasedNumberFormat
 import com.redinput.battstats.R
-import com.redinput.battstats.Widget
-import com.redinput.battstats.data.PreferencesRepository
-import com.redinput.battstats.domain.SaveWidgetConfig
-import kotlinx.android.synthetic.main.battery_widget_configure.*
+import com.redinput.battstats.Widget.DisplayStyle.NUMBER
+import com.redinput.battstats.Widget.DisplayStyle.TEXT
+import com.redinput.battstats.databinding.BatteryWidgetConfigureBinding
+import com.redinput.battstats.setVisible
+import java.util.*
 
 class BatteryWidgetConfigureActivity : AppCompatActivity() {
 
-    internal var mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+    private val viewModel: BatteryWidgetConfigureViewModel by viewModels()
+    private lateinit var binding: BatteryWidgetConfigureBinding
 
-    public override fun onCreate(icicle: Bundle?) {
-        super.onCreate(icicle)
-        setContentView(R.layout.battery_widget_configure)
-        setSupportActionBar(toolbar)
+    private val formatter = RuleBasedNumberFormat(Locale.getDefault(), RuleBasedNumberFormat.SPELLOUT)
 
-        setResult(Activity.RESULT_CANCELED)
+    private val level = 57
 
-        // Find the widget id from the intent.
-        if (intent.extras != null) {
-            mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val widgetId = intent?.extras?.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+            ?: AppWidgetManager.INVALID_APPWIDGET_ID
+
+        val resultValue = Intent().apply {
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
         }
+        setResult(Activity.RESULT_CANCELED, resultValue)
 
-        // If this activity was started with an intent without an app widget ID, finish with an error.
-        if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
+        if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
             finish()
             return
         }
+        viewModel.setId(widgetId)
 
-        val powerUsageIntent = Intent(Intent.ACTION_POWER_USAGE_SUMMARY)
-        val resolveInfo = packageManager.resolveActivity(powerUsageIntent, 0)
-        if (resolveInfo != null) {
-            behaviourUsage.visibility = View.VISIBLE
-            behaviourUsage.isChecked = true
-        } else {
-            behaviourUsage.visibility = View.GONE
-            behaviourUsage.isChecked = false
-        }
+        binding = BatteryWidgetConfigureBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
+        viewModel.widgetConfig.observe(this, {
+            val showLevel = when (it.displayStyle) {
+                TEXT -> formatter.format(level)
+                NUMBER -> level.toString()
+            }
+            binding.previewWidget.appwidgetText.text = showLevel
+            binding.previewWidget.appwidgetText.isAllCaps = it.textCaps
 
-        cancelWidget.setOnClickListener { finish() }
+            if ((binding.previewBatteryStatus.checkedButtonId == R.id.status_low) && (!it.lowEnabled)) {
+                binding.previewBatteryStatus.check(R.id.status_base)
+            }
+            binding.statusLow.isEnabled = it.lowEnabled
 
-        saveWidget.setOnClickListener {
-            val batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+            if ((binding.previewBatteryStatus.checkedButtonId == R.id.status_charging) && (!it.chargingEnabled)) {
+                binding.previewBatteryStatus.check(R.id.status_base)
+            }
+            binding.statusCharging.isEnabled = it.chargingEnabled
 
-            val showAsText = radioGroup.checkedRadioButtonId == R.id.radioText
-            val textColor = ContextCompat.getColor(this, R.color.white)
-            val bgColor = ContextCompat.getColor(this, R.color.black)
-            val widgetConfig = Widget.Config(mAppWidgetId, showAsText, textColor, background.isChecked, bgColor, Widget.ActionType.BATTERY)
+            if ((binding.previewBatteryStatus.checkedButtonId == R.id.status_full) && (!it.fullEnabled)) {
+                binding.previewBatteryStatus.check(R.id.status_base)
+            }
+            binding.statusFull.isEnabled = it.fullEnabled
 
-            val prefRepository = PreferencesRepository.getInstance(this)
-            SaveWidgetConfig(prefRepository).invoke(widgetConfig)
+            if (binding.previewBatteryStatus.checkedButtonId == R.id.status_base) {
+                binding.previewWidget.appwidgetText.setTextColor(it.baseTextColor)
+                binding.previewWidget.appwidgetBackground.setVisible(it.baseBackgroundEnabled)
+                binding.previewWidget.appwidgetBackground.setBackgroundColor(it.baseBackgroundColor)
 
-            BatteryWidget.updateAppWidget(this, AppWidgetManager.getInstance(this), mAppWidgetId, batteryIntent, widgetConfig)
+            } else if (binding.previewBatteryStatus.checkedButtonId == R.id.status_low) {
+                binding.previewWidget.appwidgetText.setTextColor(it.lowTextColor)
+                binding.previewWidget.appwidgetBackground.setVisible(it.lowBackgroundEnabled)
+                binding.previewWidget.appwidgetBackground.setBackgroundColor(it.lowBackgroundColor)
 
-            val resultValue = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId)
-            setResult(Activity.RESULT_OK, resultValue)
-            finish()
+            } else if (binding.previewBatteryStatus.checkedButtonId == R.id.status_charging) {
+                binding.previewWidget.appwidgetText.setTextColor(it.chargingTextColor)
+                binding.previewWidget.appwidgetBackground.setVisible(it.chargingBackgroundEnabled)
+                binding.previewWidget.appwidgetBackground.setBackgroundColor(it.chargingBackgroundColor)
+
+            } else if (binding.previewBatteryStatus.checkedButtonId == R.id.status_full) {
+                binding.previewWidget.appwidgetText.setTextColor(it.fullTextColor)
+                binding.previewWidget.appwidgetBackground.setVisible(it.fullBackgroundEnabled)
+                binding.previewWidget.appwidgetBackground.setBackgroundColor(it.fullBackgroundColor)
+            }
+        })
+
+        binding.previewBatteryStatus.addOnButtonCheckedListener { _, _, _ ->
+            viewModel.forceReload()
         }
     }
-
 }
