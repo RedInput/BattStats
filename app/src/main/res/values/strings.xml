@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">BattStats</string>
-    <string name="configure">Configure</string>
+    <string name="configure">Configure widget</string>
 
     <string name="description_background">background</string>
 
@@ -16,5 +16,33 @@
     <string name="notification_title">Checking battery</string>
     <string name="service_channel_name">Battery check service</string>
     <string name="service_channel_description">This notification is needed to get battery stats from your device</string>
+
+    <string name="preview_title">Preview</string>
+    <string name="configure_title">Configure</string>
+    <string name="preview_background_description">preview background</string>
+
+    <!-- keys for widget config-->
+    <string name="key_display_type">display_type</string>
+    <string name="key_text_caps">text_caps</string>
+    <string name="key_click_action">click_action</string>
+
+    <string name="key_base_text_color">base_text_color</string>
+    <string name="key_base_backgound_enabled">base_backgound_enabled</string>
+    <string name="key_base_backgound_color">base_backgound_color</string>
+
+    <string name="key_low_enabled">low_enabled</string>
+    <string name="key_low_text_color">low_text_color</string>
+    <string name="key_low_backgound_enabled">low_backgound_enabled</string>
+    <string name="key_low_backgound_color">low_backgound_color</string>
+
+    <string name="key_charging_enabled">charging_enabled</string>
+    <string name="key_charging_text_color">charging_text_color</string>
+    <string name="key_charging_backgound_enabled">charging_backgound_enabled</string>
+    <string name="key_charging_backgound_color">charging_backgound_color</string>
+
+    <string name="key_full_enabled">full_enabled</string>
+    <string name="key_full_text_color">full_text_color</string>
+    <string name="key_full_backgound_enabled">full_backgound_enabled</string>
+    <string name="key_full_backgound_color">full_backgound_color</string>
 
 </resources>
