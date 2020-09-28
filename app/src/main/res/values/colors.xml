@@ -5,9 +5,34 @@
     <color name="colorPrimaryDark">#1B5E20</color>
     <color name="colorAccent">#FF9100</color>
 
-    <color name="default_bg_color">#7F000000</color>
-    <color name="default_text_color">#FFFFFF</color>
+    <color name="default_base_text_color">#FFFFFF</color>
+    <color name="default_base_bg_color">#7F000000</color>
+    <color name="default_low_text_color">#FFFFFF</color>
+    <color name="default_low_bg_color">#A0F44336</color>
+    <color name="default_charging_text_color">#FFFFFF</color>
+    <color name="default_charging_bg_color">#7F8BC34A</color>
+    <color name="default_full_text_color">#FFFFFF</color>
+    <color name="default_full_bg_color">#A04CAF50</color>
 
+    <color name="black">#000000</color>
+    <color name="red">#F44336</color>
+    <color name="pink">#E91E63</color>
+    <color name="purple">#9C27B0</color>
+    <color name="indigo">#3F51B5</color>
+    <color name="blue">#2196F3</color>
+    <color name="light_blue">#03A9F4</color>
+    <color name="cyan">#00BCD4</color>
+    <color name="teal">#009688</color>
+    <color name="green">#4CAF50</color>
+    <color name="light_green">#8BC34A</color>
+    <color name="lime">#CDDC39</color>
+    <color name="yellow">#FFEB3B</color>
+    <color name="amber">#FFC107</color>
+    <color name="orange">#FF9800</color>
+    <color name="deep_orange">#FF5722</color>
+    <color name="brown">#795548</color>
+    <color name="grey">#9E9E9E</color>
+    <color name="blue_gray">#607D8B</color>
     <color name="white">#FFFFFF</color>
 
 </resources>
