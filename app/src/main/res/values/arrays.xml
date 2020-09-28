@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="type_values">
+        <item>text</item>
+        <item>number</item>
+    </string-array>
+    <string-array name="type_entries">
+        <item>Text</item>
+        <item>Number</item>
+    </string-array>
+
+    <string-array name="action_values">
+        <item>battery</item>
+        <item>config</item>
+        <item>none</item>
+    </string-array>
+    <string-array name="action_entries">
+        <item>Battery info</item>
+        <item>Widget config</item>
+        <item>None</item>
+    </string-array>
+
+    <integer-array name="colors">
+        <item>@color/black</item>
+        <item>@color/red</item>
+        <item>@color/pink</item>
+        <item>@color/purple</item>
+        <item>@color/indigo</item>
+        <item>@color/blue</item>
+        <item>@color/light_blue</item>
+        <item>@color/cyan</item>
+        <item>@color/teal</item>
+        <item>@color/green</item>
+        <item>@color/light_green</item>
+        <item>@color/lime</item>
+        <item>@color/yellow</item>
+        <item>@color/amber</item>
+        <item>@color/orange</item>
+        <item>@color/deep_orange</item>
+        <item>@color/brown</item>
+        <item>@color/grey</item>
+        <item>@color/blue_gray</item>
+        <item>@color/white</item>
+    </integer-array>
+</resources>
