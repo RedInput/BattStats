@@ -99,5 +99,11 @@ class BatteryWidgetConfigureActivity : AppCompatActivity() {
         binding.previewBatteryStatus.addOnButtonCheckedListener { _, _, _ ->
             viewModel.forceReload()
         }
+
+        binding.saveWidget.setOnClickListener {
+            viewModel.saveWidgetConfig()
+            setResult(Activity.RESULT_OK, resultValue)
+            finish()
+        }
     }
 }
