@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <color name="colorPrimary">#4CAF50</color>
     <color name="colorPrimaryDark">#1B5E20</color>
     <color name="colorAccent">#FF9100</color>
 
     <color name="default_base_text_color">#FFFFFF</color>
-    <color name="default_base_bg_color">#7F000000</color>
+    <color name="default_base_bg_color">#A0000000</color>
     <color name="default_low_text_color">#FFFFFF</color>
     <color name="default_low_bg_color">#A0F44336</color>
     <color name="default_charging_text_color">#FFFFFF</color>
-    <color name="default_charging_bg_color">#7F8BC34A</color>
+    <color name="default_charging_bg_color">#A08BC34A</color>
     <color name="default_full_text_color">#FFFFFF</color>
     <color name="default_full_bg_color">#A04CAF50</color>
 
@@ -34,5 +33,4 @@
     <color name="grey">#9E9E9E</color>
     <color name="blue_gray">#607D8B</color>
     <color name="white">#FFFFFF</color>
-
 </resources>
