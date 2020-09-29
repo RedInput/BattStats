@@ -3,6 +3,8 @@ package com.redinput.battstats.ui.widget
 import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
+import android.content.IntentFilter
+import android.os.BatteryManager
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +15,7 @@ import com.redinput.battstats.Widget.DisplayStyle.TEXT
 import com.redinput.battstats.databinding.BatteryWidgetConfigureBinding
 import com.redinput.battstats.setVisible
 import java.util.*
+import kotlin.properties.Delegates
 
 class BatteryWidgetConfigureActivity : AppCompatActivity() {
 
@@ -21,7 +24,7 @@ class BatteryWidgetConfigureActivity : AppCompatActivity() {
 
     private val formatter = RuleBasedNumberFormat(Locale.getDefault(), RuleBasedNumberFormat.SPELLOUT)
 
-    private val level = 57
+    private var level by Delegates.notNull<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +45,11 @@ class BatteryWidgetConfigureActivity : AppCompatActivity() {
 
         binding = BatteryWidgetConfigureBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val batteryIntent = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val rawLevel = batteryIntent?.extras?.getInt(BatteryManager.EXTRA_LEVEL) ?: 57
+        val maxLevel = batteryIntent?.extras?.getInt(BatteryManager.EXTRA_SCALE) ?: 100
+        level = rawLevel * 100 / maxLevel
 
         viewModel.widgetConfig.observe(this, {
             val showLevel = when (it.displayStyle) {
