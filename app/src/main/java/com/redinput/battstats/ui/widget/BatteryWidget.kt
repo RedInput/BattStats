@@ -13,6 +13,8 @@ import androidx.core.content.ContextCompat
 import com.ibm.icu.text.RuleBasedNumberFormat
 import com.redinput.battstats.R
 import com.redinput.battstats.Widget
+import com.redinput.battstats.Widget.DisplayStyle.NUMBER
+import com.redinput.battstats.Widget.DisplayStyle.TEXT
 import com.redinput.battstats.data.PreferencesRepository
 import com.redinput.battstats.domain.LoadWidgetConfig
 import com.redinput.battstats.domain.RemoveWidgetConfig
@@ -67,28 +69,70 @@ class BatteryWidget : AppWidgetProvider() {
         ) {
             if (batteryIntent == null) return
 
-            val rawLevel = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0)
-            val maxLevel = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, 100)
+            val rawLevel = batteryIntent.extras?.getInt(BatteryManager.EXTRA_LEVEL) ?: 0
+            val maxLevel = batteryIntent.extras?.getInt(BatteryManager.EXTRA_SCALE) ?: 100
             val level = rawLevel * 100 / maxLevel
 
+            val status = batteryIntent.extras?.getInt(BatteryManager.EXTRA_STATUS)
+                ?: BatteryManager.BATTERY_STATUS_UNKNOWN
+
+            val isCharging = (status == BatteryManager.BATTERY_STATUS_CHARGING)
+            val isFull = (status == BatteryManager.BATTERY_STATUS_FULL)
+            val isLow = ((status != BatteryManager.BATTERY_STATUS_CHARGING) && (status != BatteryManager.BATTERY_STATUS_FULL) && (level <= 15))
 
             val views = RemoteViews(context.packageName, R.layout.battery_widget)
 
             if (level in 0..100) {
-                val showLevel = when (widgetConfig.asText) {
-                    true -> formatter.format(level)
-                    false -> level.toString()
+                var showLevel = when (widgetConfig.displayStyle) {
+                    TEXT -> formatter.format(level)
+                    NUMBER -> level.toString()
+                }
+                if (widgetConfig.textCaps) {
+                    showLevel = showLevel.toUpperCase(Locale.getDefault())
                 }
                 views.setTextViewText(R.id.appwidget_text, showLevel)
 
-                if (widgetConfig.showBackground) {
-                    views.setViewVisibility(R.id.appwidget_background, View.VISIBLE)
+
+                if ((isFull) && (widgetConfig.fullEnabled)) {
+                    views.setTextColor(R.id.appwidget_text, widgetConfig.fullTextColor)
+                    if (widgetConfig.fullBackgroundEnabled) {
+                        views.setViewVisibility(R.id.appwidget_background, View.VISIBLE)
+                        views.setInt(R.id.appwidget_background, "setBackgroundColor", widgetConfig.fullBackgroundColor)
+                    } else {
+                        views.setViewVisibility(R.id.appwidget_background, View.INVISIBLE)
+                    }
+
+                } else if ((isCharging) && (widgetConfig.chargingEnabled)) {
+                    views.setTextColor(R.id.appwidget_text, widgetConfig.chargingTextColor)
+                    if (widgetConfig.chargingBackgroundEnabled) {
+                        views.setViewVisibility(R.id.appwidget_background, View.VISIBLE)
+                        views.setInt(R.id.appwidget_background, "setBackgroundColor", widgetConfig.chargingBackgroundColor)
+                    } else {
+                        views.setViewVisibility(R.id.appwidget_background, View.INVISIBLE)
+                    }
+
+                } else if ((isLow) && (widgetConfig.lowEnabled)) {
+                    views.setTextColor(R.id.appwidget_text, widgetConfig.lowTextColor)
+                    if (widgetConfig.lowBackgroundEnabled) {
+                        views.setViewVisibility(R.id.appwidget_background, View.VISIBLE)
+                        views.setInt(R.id.appwidget_background, "setBackgroundColor", widgetConfig.lowBackgroundColor)
+                    } else {
+                        views.setViewVisibility(R.id.appwidget_background, View.INVISIBLE)
+                    }
+
                 } else {
-                    views.setViewVisibility(R.id.appwidget_background, View.INVISIBLE)
+                    views.setTextColor(R.id.appwidget_text, widgetConfig.baseTextColor)
+                    if (widgetConfig.baseBackgroundEnabled) {
+                        views.setViewVisibility(R.id.appwidget_background, View.VISIBLE)
+                        views.setInt(R.id.appwidget_background, "setBackgroundColor", widgetConfig.baseBackgroundColor)
+                    } else {
+                        views.setViewVisibility(R.id.appwidget_background, View.INVISIBLE)
+                    }
                 }
 
+
                 var actionIntent: PendingIntent? = null
-                when (widgetConfig.actionType) {
+                when (widgetConfig.clickAction) {
                     Widget.ActionType.BATTERY -> {
                         val intent = Intent(Intent.ACTION_POWER_USAGE_SUMMARY)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
