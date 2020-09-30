@@ -6,7 +6,7 @@
         android:id="@+id/appwidget_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/default_bg_color"
+        android:background="@color/default_base_bg_color"
         android:contentDescription="@string/description_background" />
 
     <TextView
@@ -16,7 +16,7 @@
         android:layout_gravity="center"
         android:layout_margin="8dp"
         android:text="@string/app_name"
-        android:textColor="@color/default_text_color"
+        android:textColor="@color/default_base_text_color"
         android:textSize="24sp"
         android:textStyle="bold|italic" />
 
