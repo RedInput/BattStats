@@ -149,7 +149,7 @@ class BatteryWidget : AppWidgetProvider() {
                         actionIntent = null
                     }
                 }
-                views.setOnClickPendingIntent(R.id.appwidget_background, actionIntent)
+                views.setOnClickPendingIntent(R.id.appwidget_root, actionIntent)
             }
 
             appWidgetManager.updateAppWidget(appWidgetId, views)
