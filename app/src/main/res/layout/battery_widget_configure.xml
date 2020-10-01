@@ -62,28 +62,28 @@
             style="@style/ToogleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Base" />
+            android:text="@string/preview_base" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/status_low"
             style="@style/ToogleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Low" />
+            android:text="@string/preview_low" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/status_charging"
             style="@style/ToogleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Charging" />
+            android:text="@string/preview_charging" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/status_full"
             style="@style/ToogleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Full" />
+            android:text="@string/preview_full" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <TextView

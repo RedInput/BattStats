@@ -13,6 +13,10 @@
     <string name="preview_title">Preview</string>
     <string name="configure_title">Configure</string>
     <string name="preview_background_description">preview background</string>
+    <string name="preview_base">Base</string>
+    <string name="preview_low">Low</string>
+    <string name="preview_charging">Charging</string>
+    <string name="preview_full">Full</string>
 
     <!-- keys for widget config-->
     <string name="key_display_type">display_type</string>
