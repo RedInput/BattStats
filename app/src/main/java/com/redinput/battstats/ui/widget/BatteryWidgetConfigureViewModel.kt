@@ -9,8 +9,10 @@ import com.redinput.battstats.Widget.ActionType.*
 import com.redinput.battstats.Widget.DisplayStyle.NUMBER
 import com.redinput.battstats.Widget.DisplayStyle.TEXT
 import com.redinput.battstats.data.PreferencesRepository
+import com.redinput.battstats.domain.LoadWidgetConfig
 import com.redinput.battstats.domain.SaveWidgetConfig
 import com.redinput.battstats.forceRefresh
+import com.redinput.battstats.helpers.UseCase
 import com.redinput.battstats.update
 import com.redinput.battstats.updateWidgets
 
@@ -18,6 +20,7 @@ class BatteryWidgetConfigureViewModel(application: Application) : AndroidViewMod
 
     private val prefRepository = PreferencesRepository.getInstance(application.applicationContext)
     private val saveWidgetConfig = SaveWidgetConfig(prefRepository)
+    private val loadWidgetConfig = LoadWidgetConfig(prefRepository)
 
     private val _widgetConfig = MutableLiveData(Widget.Config(application.applicationContext))
     val widgetConfig: LiveData<Widget.Config> = _widgetConfig
@@ -26,8 +29,15 @@ class BatteryWidgetConfigureViewModel(application: Application) : AndroidViewMod
         _widgetConfig.forceRefresh()
     }
 
-    fun setId(id: Int) {
-        _widgetConfig.update { it.value?.id = id }
+    fun loadWidget(widgetId: Int) {
+        loadWidgetConfig.invoke(widgetId) {
+            if ((it is UseCase.Result.Success<*>)
+                && (it.data is Widget.Config)) {
+                _widgetConfig.value = it.data
+            } else {
+                _widgetConfig.update { it.value?.id = widgetId }
+            }
+        }
     }
 
 

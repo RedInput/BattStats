@@ -41,7 +41,7 @@ class BatteryWidgetConfigureActivity : AppCompatActivity() {
             finish()
             return
         }
-        viewModel.setId(widgetId)
+        viewModel.loadWidget(widgetId)
 
         binding = BatteryWidgetConfigureBinding.inflate(layoutInflater)
         setContentView(binding.root)
