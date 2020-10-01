@@ -2,12 +2,14 @@ package com.redinput.battstats.ui.widget
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.SwitchPreferenceCompat
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
 import com.redinput.battstats.R
 import com.redinput.battstats.helpers.BasePreferenceFragment
+import java.util.*
 
 class BatteryWidgetConfigureFragment : BasePreferenceFragment() {
 
@@ -96,6 +98,74 @@ class BatteryWidgetConfigureFragment : BasePreferenceFragment() {
 
         prefFullBackgroundColor = findPreference(getString(R.string.key_full_backgound_color))!!
         prefFullBackgroundColor.onPreferenceChangeListener = preferenceListener
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        viewModel.widgetConfig.observe(viewLifecycleOwner, Observer {
+            val displayStyle = it.displayStyle.name.toLowerCase(Locale.ROOT)
+            if (displayStyle != prefDisplayType.value) {
+                prefDisplayType.value = displayStyle
+                prefTextCaps.isEnabled = (displayStyle == "text")
+            }
+            if (it.textCaps != prefTextCaps.isChecked) {
+                prefTextCaps.isChecked = it.textCaps
+            }
+            val clickAction = it.clickAction.name.toLowerCase(Locale.ROOT)
+            if (clickAction != prefClickAction.value) {
+                prefClickAction.value = clickAction
+            }
+
+            if (it.baseTextColor != prefBaseTextColor.color) {
+                prefBaseTextColor.color = it.baseTextColor
+            }
+            if (it.baseBackgroundEnabled != prefBaseBackgroundEnabled.isChecked) {
+                prefBaseBackgroundEnabled.isChecked = it.baseBackgroundEnabled
+            }
+            if (it.baseBackgroundColor != prefBaseBackgroundColor.color) {
+                prefBaseBackgroundColor.color = it.baseBackgroundColor
+            }
+
+            if (it.lowEnabled != prefLowEnabled.isChecked) {
+                prefLowEnabled.isChecked = it.lowEnabled
+            }
+            if (it.lowTextColor != prefLowTextColor.color) {
+                prefLowTextColor.color = it.lowTextColor
+            }
+            if (it.lowBackgroundEnabled != prefLowBackgroundEnabled.isChecked) {
+                prefLowBackgroundEnabled.isChecked = it.lowBackgroundEnabled
+            }
+            if (it.lowBackgroundColor != prefLowBackgroundColor.color) {
+                prefLowBackgroundColor.color = it.lowBackgroundColor
+            }
+
+            if (it.chargingEnabled != prefChargingEnabled.isChecked) {
+                prefChargingEnabled.isChecked = it.chargingEnabled
+            }
+            if (it.chargingTextColor != prefChargingTextColor.color) {
+                prefChargingTextColor.color = it.chargingTextColor
+            }
+            if (it.chargingBackgroundEnabled != prefChargingBackgroundEnabled.isChecked) {
+                prefChargingBackgroundEnabled.isChecked = it.chargingBackgroundEnabled
+            }
+            if (it.chargingBackgroundColor != prefChargingBackgroundColor.color) {
+                prefChargingBackgroundColor.color = it.chargingBackgroundColor
+            }
+
+            if (it.fullEnabled != prefFullEnabled.isChecked) {
+                prefFullEnabled.isChecked = it.fullEnabled
+            }
+            if (it.fullTextColor != prefFullTextColor.color) {
+                prefFullTextColor.color = it.fullTextColor
+            }
+            if (it.fullBackgroundEnabled != prefFullBackgroundEnabled.isChecked) {
+                prefFullBackgroundEnabled.isChecked = it.fullBackgroundEnabled
+            }
+            if (it.fullBackgroundColor != prefFullBackgroundColor.color) {
+                prefFullBackgroundColor.color = it.fullBackgroundColor
+            }
+        })
     }
 
     private val preferenceListener = Preference.OnPreferenceChangeListener { preference: Preference, newValue: Any ->
