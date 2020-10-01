@@ -45,4 +45,32 @@
     <string name="key_full_backgound_enabled">full_backgound_enabled</string>
     <string name="key_full_backgound_color">full_backgound_color</string>
 
+    <string name="category_general">General</string>
+    <string name="title_display_type">Display style</string>
+    <string name="title_text_caps">Show battery level in caps</string>
+    <string name="title_click_action">Click action</string>
+    <string name="summary_click_action">What screen to open when clicking widget</string>
+
+    <string name="category_base">Base style</string>
+    <string name="title_base_text_color">Text color</string>
+    <string name="title_base_background_enabled">Show background</string>
+    <string name="title_base_background_color">Background color</string>
+
+    <string name="category_low">Low battery style</string>
+    <string name="title_low_enabled">Customize</string>
+    <string name="title_low_text_color">Text color</string>
+    <string name="title_low_background_enabled">Show background</string>
+    <string name="title_low_background_color">Background color</string>
+
+    <string name="category_charging">Charging style</string>
+    <string name="title_charging_enabled">Customize</string>
+    <string name="title_charging_text_color">Text color</string>
+    <string name="title_charging_background_enabled">Show background</string>
+    <string name="title_charging_background_color">Background color</string>
+
+    <string name="category_full">Full battery style</string>
+    <string name="title_full_enabled">Customize</string>
+    <string name="title_full_text_color">Text color</string>
+    <string name="title_full_background_enabled">Show background</string>
+    <string name="title_full_background_color">Background color</string>
 </resources>
