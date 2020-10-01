@@ -5,9 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.redinput.battstats.Widget
-import com.redinput.battstats.Widget.ActionType.*
-import com.redinput.battstats.Widget.DisplayStyle.NUMBER
-import com.redinput.battstats.Widget.DisplayStyle.TEXT
+import com.redinput.battstats.Widget.ActionType
+import com.redinput.battstats.Widget.DisplayStyle
 import com.redinput.battstats.data.PreferencesRepository
 import com.redinput.battstats.domain.LoadWidgetConfig
 import com.redinput.battstats.domain.SaveWidgetConfig
@@ -15,6 +14,7 @@ import com.redinput.battstats.forceRefresh
 import com.redinput.battstats.helpers.UseCase
 import com.redinput.battstats.update
 import com.redinput.battstats.updateWidgets
+import java.util.*
 
 class BatteryWidgetConfigureViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -42,11 +42,8 @@ class BatteryWidgetConfigureViewModel(application: Application) : AndroidViewMod
 
 
     fun changeDisplayStyle(value: String) {
-        if (value == "text") {
-            _widgetConfig.update { it.value?.displayStyle = TEXT }
-        } else if (value == "number") {
-            _widgetConfig.update { it.value?.displayStyle = NUMBER }
-        }
+        val newValue = DisplayStyle.valueOf(value.toUpperCase(Locale.ROOT))
+        _widgetConfig.update { it.value?.displayStyle = newValue }
     }
 
     fun changeTextCaps(enabled: Boolean) {
@@ -54,13 +51,8 @@ class BatteryWidgetConfigureViewModel(application: Application) : AndroidViewMod
     }
 
     fun changeClickAction(value: String) {
-        if (value == "battery") {
-            _widgetConfig.update { it.value?.clickAction = BATTERY }
-        } else if (value == "config") {
-            _widgetConfig.update { it.value?.clickAction = CONFIG }
-        } else if (value == "none") {
-            _widgetConfig.update { it.value?.clickAction = NONE }
-        }
+        val newValue = ActionType.valueOf(value.toUpperCase(Locale.ROOT))
+        _widgetConfig.update { it.value?.clickAction = newValue }
     }
 
 
@@ -128,7 +120,7 @@ class BatteryWidgetConfigureViewModel(application: Application) : AndroidViewMod
     }
 
     fun saveWidgetConfig() {
-        saveWidgetConfig.invoke(_widgetConfig.value!!){
+        saveWidgetConfig.invoke(_widgetConfig.value!!) {
             getApplication<Application>().applicationContext.updateWidgets()
         }
     }
