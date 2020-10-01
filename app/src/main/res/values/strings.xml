@@ -1,10 +1,8 @@
 <resources>
 
-    <string name="app_name">BattStats</string>
+    <string name="app_name" translatable="false">BattStats</string>
 
     <string name="description_background">background</string>
-
-    <string name="save">Save</string>
 
     <string name="notification_title">Checking battery</string>
     <string name="service_channel_name">Battery check service</string>
@@ -17,30 +15,14 @@
     <string name="preview_low">Low</string>
     <string name="preview_charging">Charging</string>
     <string name="preview_full">Full</string>
+    <string name="save">Save</string>
 
-    <!-- keys for widget config-->
-    <string name="key_display_type">display_type</string>
-    <string name="key_text_caps">text_caps</string>
-    <string name="key_click_action">click_action</string>
+    <string name="display_style_text">Text</string>
+    <string name="display_style_number">Number</string>
 
-    <string name="key_base_text_color">base_text_color</string>
-    <string name="key_base_backgound_enabled">base_backgound_enabled</string>
-    <string name="key_base_backgound_color">base_backgound_color</string>
-
-    <string name="key_low_enabled">low_enabled</string>
-    <string name="key_low_text_color">low_text_color</string>
-    <string name="key_low_backgound_enabled">low_backgound_enabled</string>
-    <string name="key_low_backgound_color">low_backgound_color</string>
-
-    <string name="key_charging_enabled">charging_enabled</string>
-    <string name="key_charging_text_color">charging_text_color</string>
-    <string name="key_charging_backgound_enabled">charging_backgound_enabled</string>
-    <string name="key_charging_backgound_color">charging_backgound_color</string>
-
-    <string name="key_full_enabled">full_enabled</string>
-    <string name="key_full_text_color">full_text_color</string>
-    <string name="key_full_backgound_enabled">full_backgound_enabled</string>
-    <string name="key_full_backgound_color">full_backgound_color</string>
+    <string name="click_action_battery">Battery info</string>
+    <string name="click_action_config">Widget config</string>
+    <string name="click_action_none">None</string>
 
     <string name="category_general">General</string>
     <string name="title_display_type">Display style</string>
@@ -70,4 +52,28 @@
     <string name="title_full_text_color">Text color</string>
     <string name="title_full_background_enabled">Show background</string>
     <string name="title_full_background_color">Background color</string>
+
+    <!-- keys for widget config-->
+    <string name="key_display_type" translatable="false">display_type</string>
+    <string name="key_text_caps" translatable="false">text_caps</string>
+    <string name="key_click_action" translatable="false">click_action</string>
+
+    <string name="key_base_text_color" translatable="false">base_text_color</string>
+    <string name="key_base_backgound_enabled" translatable="false">base_backgound_enabled</string>
+    <string name="key_base_backgound_color" translatable="false">base_backgound_color</string>
+
+    <string name="key_low_enabled" translatable="false">low_enabled</string>
+    <string name="key_low_text_color" translatable="false">low_text_color</string>
+    <string name="key_low_backgound_enabled" translatable="false">low_backgound_enabled</string>
+    <string name="key_low_backgound_color" translatable="false">low_backgound_color</string>
+
+    <string name="key_charging_enabled" translatable="false">charging_enabled</string>
+    <string name="key_charging_text_color" translatable="false">charging_text_color</string>
+    <string name="key_charging_backgound_enabled" translatable="false">charging_backgound_enabled</string>
+    <string name="key_charging_backgound_color" translatable="false">charging_backgound_color</string>
+
+    <string name="key_full_enabled" translatable="false">full_enabled</string>
+    <string name="key_full_text_color" translatable="false">full_text_color</string>
+    <string name="key_full_backgound_enabled" translatable="false">full_backgound_enabled</string>
+    <string name="key_full_backgound_color" translatable="false">full_backgound_color</string>
 </resources>

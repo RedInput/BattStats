@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="type_values">
+    <string-array name="type_values" translatable="false">
         <item>text</item>
         <item>number</item>
     </string-array>
     <string-array name="type_entries">
-        <item>Text</item>
-        <item>Number</item>
+        <item>@string/display_style_text</item>
+        <item>@string/display_style_number</item>
     </string-array>
 
-    <string-array name="action_values">
+    <string-array name="action_values" translatable="false">
         <item>battery</item>
         <item>config</item>
         <item>none</item>
     </string-array>
     <string-array name="action_entries">
-        <item>Battery info</item>
-        <item>Widget config</item>
-        <item>None</item>
+        <item>@string/click_action_battery</item>
+        <item>@string/click_action_config</item>
+        <item>@string/click_action_none</item>
     </string-array>
 
     <integer-array name="colors">
