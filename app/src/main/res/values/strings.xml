@@ -6,7 +6,6 @@
 
     <string name="notification_title">Checking battery</string>
     <string name="service_channel_name">Battery check service</string>
-    <string name="service_channel_description">This notification is needed to get battery stats from your device</string>
 
     <string name="preview_title">Preview</string>
     <string name="configure_title">Configure</string>

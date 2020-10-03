@@ -42,7 +42,6 @@ class BatteryService : Service() {
     private fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, getString(R.string.service_channel_name), NotificationManager.IMPORTANCE_LOW)
-            channel.description = getString(R.string.service_channel_description)
             channel.setShowBadge(false)
             channel.lockscreenVisibility = NotificationCompat.VISIBILITY_SECRET
 
