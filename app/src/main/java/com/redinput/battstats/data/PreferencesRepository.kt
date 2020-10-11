@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.preference.PreferenceManager
 import com.redinput.battstats.Widget
 import com.redinput.battstats.helpers.SingletonHolder
-import com.squareup.moshi.Moshi
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class PreferencesRepository private constructor(context: Context) : PreferencesSource {
 
@@ -14,18 +16,15 @@ class PreferencesRepository private constructor(context: Context) : PreferencesS
 
     private val preferences = PreferenceManager.getDefaultSharedPreferences(context)
 
-    private val moshi = Moshi.Builder().build()
-    private val moshiWidgetConfig = moshi.adapter(Widget.Config::class.java)
-
     override fun saveWidgetInfo(info: Widget.Config) {
-        val json = moshiWidgetConfig.toJson(info)
+        val json = Json.encodeToString(info)
         preferences.edit().putString(KEY_WIDGET_CONFIG_PREFIX + info.id, json).apply()
     }
 
     override fun loadWidgetInfo(widgetId: Int): Widget.Config? {
         val json = preferences.getString(KEY_WIDGET_CONFIG_PREFIX + widgetId, null)
         if (json != null) {
-            return moshiWidgetConfig.fromJson(json)
+            return Json.decodeFromString(json)
         }
         return null
     }

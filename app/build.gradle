@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlinx-serialization'
 
 final VERSION_CODE = 1
 final VERSION_NAME = '0.1'
@@ -51,8 +52,7 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.2.1'
 
-    implementation 'com.squareup.moshi:moshi:1.10.0'
-    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.10.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0'
 
     // Pending until fix for persistent=false
     // implementation 'com.jaredrummler:colorpicker:1.1.0'

@@ -4,11 +4,11 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
 class Widget {
 
-    @JsonClass(generateAdapter = true)
+    @Serializable
     data class Config(
         var id: Int = AppWidgetManager.INVALID_APPWIDGET_ID,
 
