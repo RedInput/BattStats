@@ -19,12 +19,18 @@ import com.redinput.battstats.data.PreferencesRepository
 import com.redinput.battstats.domain.LoadWidgetConfig
 import com.redinput.battstats.domain.RemoveWidgetConfig
 import com.redinput.battstats.helpers.UseCase
+import com.redinput.battstats.isServiceRunning
 import com.redinput.battstats.service.BatteryService
 import java.util.*
 
 class BatteryWidget : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+        if (!context.isServiceRunning()) {
+            val intentService = Intent(context, BatteryService::class.java)
+            ContextCompat.startForegroundService(context, intentService)
+        }
+
         val prefRepository = PreferencesRepository.getInstance(context)
         val batteryIntent = context.applicationContext.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
