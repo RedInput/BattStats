@@ -5,6 +5,8 @@
     <string name="description_background">background</string>
 
     <string name="notification_title">Checking battery</string>
+    <string name="notification_text_short">Remove this notification clicking on it and disabling them</string>
+    <string name="notification_text_long">To remove this notification click on it to open app settings and disable them</string>
     <string name="service_channel_name">Battery check service</string>
 
     <string name="preview_title">Preview</string>

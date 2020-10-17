@@ -7,8 +7,10 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.Uri
 import android.os.Build
 import android.os.IBinder
+import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import com.redinput.battstats.R
 
@@ -29,10 +31,25 @@ class BatteryService : Service() {
         createChannel()
 
         val notificationIntent = Intent()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationIntent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+            notificationIntent.putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            notificationIntent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+            notificationIntent.putExtra("app_package", packageName)
+            notificationIntent.putExtra("app_uid", applicationInfo.uid)
+        } else {
+            notificationIntent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            notificationIntent.addCategory(Intent.CATEGORY_DEFAULT)
+            notificationIntent.data = Uri.parse("package:$packageName")
+        }
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
         val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_battery)
             .setContentTitle(getString(R.string.notification_title))
+            .setContentText(getString(R.string.notification_text_short))
+            .setStyle(NotificationCompat.BigTextStyle()
+                .bigText(getString(R.string.notification_text_long)))
             .setContentIntent(pendingIntent)
         val notification = builder.build()
 
