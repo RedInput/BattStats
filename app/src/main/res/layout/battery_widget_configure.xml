@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.widget.BatteryWidgetConfigureActivity">
+    tools:context=".widget.BatteryWidgetConfigureActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -97,7 +97,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/configure_fragment"
-        android:name="com.redinput.battstats.ui.widget.BatteryWidgetConfigureFragment"
+        android:name="com.redinput.battstats.widget.BatteryWidgetConfigureFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="8dp"

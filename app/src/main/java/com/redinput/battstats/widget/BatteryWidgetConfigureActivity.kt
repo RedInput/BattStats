@@ -1,4 +1,4 @@
-package com.redinput.battstats.ui.widget
+package com.redinput.battstats.widget
 
 import android.app.Activity
 import android.appwidget.AppWidgetManager

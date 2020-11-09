@@ -8,7 +8,7 @@ import android.content.Intent
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.redinput.battstats.service.BatteryService
-import com.redinput.battstats.ui.widget.BatteryWidget
+import com.redinput.battstats.widget.BatteryWidget
 
 @Suppress("DEPRECATION")
 fun Context.isServiceRunning(): Boolean {
