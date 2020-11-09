@@ -33,6 +33,7 @@ class BatteryWidget : AppWidgetProvider() {
 
         val prefRepository = PreferencesRepository.getInstance(context)
         val batteryIntent = context.applicationContext.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val formatter = RuleBasedNumberFormat(Locale.getDefault(), RuleBasedNumberFormat.SPELLOUT)
 
         for (appWidgetId in appWidgetIds) {
             LoadWidgetConfig(prefRepository).invoke(
@@ -40,7 +41,7 @@ class BatteryWidget : AppWidgetProvider() {
                 onResult = {
                     if ((it is UseCase.Result.Success<*>)
                         && (it.data is Widget.Config)) {
-                        updateAppWidget(context, appWidgetManager, appWidgetId, batteryIntent, it.data)
+                        updateAppWidget(context, appWidgetManager, appWidgetId, batteryIntent, formatter, it.data)
                     }
                 }
             )
@@ -64,13 +65,13 @@ class BatteryWidget : AppWidgetProvider() {
     }
 
     companion object {
-        private val formatter = RuleBasedNumberFormat(Locale.getDefault(), RuleBasedNumberFormat.SPELLOUT)
 
         internal fun updateAppWidget(
             context: Context,
             appWidgetManager: AppWidgetManager,
             appWidgetId: Int,
             batteryIntent: Intent?,
+            formatter: RuleBasedNumberFormat,
             widgetConfig: Widget.Config
         ) {
             if (batteryIntent == null) return
