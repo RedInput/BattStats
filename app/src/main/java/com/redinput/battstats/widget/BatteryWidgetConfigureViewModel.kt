@@ -30,10 +30,10 @@ class BatteryWidgetConfigureViewModel(application: Application) : AndroidViewMod
     }
 
     fun loadWidget(widgetId: Int) {
-        loadWidgetConfig.invoke(widgetId) {
-            if ((it is UseCase.Result.Success<*>)
-                && (it.data is Widget.Config)) {
-                _widgetConfig.value = it.data
+        loadWidgetConfig.invoke(widgetId) { result ->
+            if ((result is UseCase.Result.Success<*>)
+                && (result.data is Widget.Config)) {
+                _widgetConfig.value = result.data
             } else {
                 _widgetConfig.update { it.value?.id = widgetId }
             }

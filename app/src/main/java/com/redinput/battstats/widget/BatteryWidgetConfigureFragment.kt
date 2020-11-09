@@ -2,7 +2,6 @@ package com.redinput.battstats.widget
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.SwitchPreferenceCompat
@@ -103,7 +102,7 @@ class BatteryWidgetConfigureFragment : BasePreferenceFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.widgetConfig.observe(viewLifecycleOwner, Observer {
+        viewModel.widgetConfig.observe(viewLifecycleOwner, {
             val displayStyle = it.displayStyle.name.toLowerCase(Locale.ROOT)
             if (displayStyle != prefDisplayType.value) {
                 prefDisplayType.value = displayStyle
