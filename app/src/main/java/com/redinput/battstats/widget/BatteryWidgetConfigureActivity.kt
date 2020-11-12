@@ -22,7 +22,7 @@ class BatteryWidgetConfigureActivity : AppCompatActivity() {
     private val viewModel: BatteryWidgetConfigureViewModel by viewModels()
     private lateinit var binding: BatteryWidgetConfigureBinding
 
-    private val formatter: RuleBasedNumberFormat by lazy { RuleBasedNumberFormat(Locale.getDefault(), RuleBasedNumberFormat.SPELLOUT) }
+    private val formatter = RuleBasedNumberFormat(Locale.getDefault(), RuleBasedNumberFormat.SPELLOUT)
 
     private var level by Delegates.notNull<Int>()
 
