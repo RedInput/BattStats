@@ -48,6 +48,7 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.2.1'
 
+    implementation group: 'com.ibm.icu', name: 'icu4j', version: '62.1'
     // Pending until fix for persistent=false
     // implementation 'com.jaredrummler:colorpicker:1.1.0'
 }
