@@ -23,6 +23,8 @@
 -keepattributes *Annotation*, InnerClasses
 -dontnote kotlinx.serialization.AnnotationsKt # core serialization annotations
 
+#noinspection ShrinkerUnresolvedReference
+
 # kotlinx-serialization-json specific. Add this if you have java.lang.NoClassDefFoundError kotlinx.serialization.json.JsonObjectSerializer
 -keepclassmembers class kotlinx.serialization.json.** {
     *** Companion;
@@ -32,10 +34,10 @@
 }
 
 # Change here com.yourcompany.yourpackage
--keep,includedescriptorclasses class com.yourcompany.yourpackage.**$$serializer { *; } # <-- change package name to your app's
--keepclassmembers class com.yourcompany.yourpackage.** { # <-- change package name to your app's
+-keep,includedescriptorclasses class com.redinput.battstats.**$$serializer { *; } # <-- change package name to your app's
+-keepclassmembers class com.redinput.battstats.** { # <-- change package name to your app's
     *** Companion;
 }
--keepclasseswithmembers class com.yourcompany.yourpackage.** { # <-- change package name to your app's
+-keepclasseswithmembers class com.redinput.battstats.** { # <-- change package name to your app's
     kotlinx.serialization.KSerializer serializer(...);
 }
