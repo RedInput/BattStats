@@ -1,6 +1,7 @@
 package com.redinput.battstats.widget
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -99,8 +100,8 @@ class BatteryWidgetConfigureFragment : BasePreferenceFragment() {
         prefFullBackgroundColor.onPreferenceChangeListener = preferenceListener
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         viewModel.widgetConfig.observe(viewLifecycleOwner, {
             val displayStyle = it.displayStyle.name.toLowerCase(Locale.ROOT)
