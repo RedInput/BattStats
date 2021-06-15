@@ -42,7 +42,7 @@ class BatteryWidgetConfigureViewModel(application: Application) : AndroidViewMod
 
 
     fun changeDisplayStyle(value: String) {
-        val newValue = DisplayStyle.valueOf(value.toUpperCase(Locale.ROOT))
+        val newValue = DisplayStyle.valueOf(value.uppercase())
         _widgetConfig.update { it.value?.displayStyle = newValue }
     }
 
@@ -51,7 +51,7 @@ class BatteryWidgetConfigureViewModel(application: Application) : AndroidViewMod
     }
 
     fun changeClickAction(value: String) {
-        val newValue = ActionType.valueOf(value.toUpperCase(Locale.ROOT))
+        val newValue = ActionType.valueOf(value.uppercase())
         _widgetConfig.update { it.value?.clickAction = newValue }
     }
 

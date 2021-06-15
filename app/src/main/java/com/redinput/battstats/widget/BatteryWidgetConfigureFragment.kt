@@ -104,7 +104,7 @@ class BatteryWidgetConfigureFragment : BasePreferenceFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.widgetConfig.observe(viewLifecycleOwner, {
-            val displayStyle = it.displayStyle.name.toLowerCase(Locale.ROOT)
+            val displayStyle = it.displayStyle.name.lowercase()
             if (displayStyle != prefDisplayType.value) {
                 prefDisplayType.value = displayStyle
                 prefTextCaps.isEnabled = (displayStyle == "text")
@@ -112,7 +112,7 @@ class BatteryWidgetConfigureFragment : BasePreferenceFragment() {
             if (it.textCaps != prefTextCaps.isChecked) {
                 prefTextCaps.isChecked = it.textCaps
             }
-            val clickAction = it.clickAction.name.toLowerCase(Locale.ROOT)
+            val clickAction = it.clickAction.name.lowercase()
             if (clickAction != prefClickAction.value) {
                 prefClickAction.value = clickAction
             }
