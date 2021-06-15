@@ -25,23 +25,34 @@ import java.util.*
 
 class BatteryWidget : AppWidgetProvider() {
 
-    override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+    override fun onUpdate(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
+    ) {
         if (!context.isServiceRunning()) {
             val intentService = Intent(context, BatteryService::class.java)
             ContextCompat.startForegroundService(context, intentService)
         }
 
         val prefRepository = PreferencesRepository.getInstance(context)
-        val batteryIntent = context.applicationContext.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val batteryIntent = context.applicationContext
+            .registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         val formatter = RuleBasedNumberFormat(Locale.getDefault(), RuleBasedNumberFormat.SPELLOUT)
 
         for (appWidgetId in appWidgetIds) {
             LoadWidgetConfig(prefRepository).invoke(
                 appWidgetId,
                 onResult = {
-                    if ((it is UseCase.Result.Success<*>)
-                        && (it.data is Widget.Config)) {
-                        updateAppWidget(context, appWidgetManager, appWidgetId, batteryIntent, formatter, it.data)
+                    if ((it is UseCase.Result.Success<*>) && (it.data is Widget.Config)) {
+                        updateAppWidget(
+                            context,
+                            appWidgetManager,
+                            appWidgetId,
+                            batteryIntent,
+                            formatter,
+                            it.data
+                        )
                     }
                 }
             )
@@ -85,7 +96,8 @@ class BatteryWidget : AppWidgetProvider() {
 
             val isCharging = (status == BatteryManager.BATTERY_STATUS_CHARGING)
             val isFull = (status == BatteryManager.BATTERY_STATUS_FULL)
-            val isLow = ((status != BatteryManager.BATTERY_STATUS_CHARGING) && (status != BatteryManager.BATTERY_STATUS_FULL) && (level <= 15))
+            val isLow =
+                ((status != BatteryManager.BATTERY_STATUS_CHARGING) && (status != BatteryManager.BATTERY_STATUS_FULL) && (level <= 15))
 
             val views = RemoteViews(context.packageName, R.layout.battery_widget)
 
@@ -95,7 +107,7 @@ class BatteryWidget : AppWidgetProvider() {
                     NUMBER -> level.toString()
                 }
                 if (widgetConfig.textCaps) {
-                    showLevel = showLevel.toUpperCase(Locale.getDefault())
+                    showLevel = showLevel.uppercase()
                 }
                 views.setTextViewText(R.id.appwidget_text, showLevel)
 
@@ -104,7 +116,11 @@ class BatteryWidget : AppWidgetProvider() {
                     views.setTextColor(R.id.appwidget_text, widgetConfig.fullTextColor)
                     if (widgetConfig.fullBackgroundEnabled) {
                         views.setViewVisibility(R.id.appwidget_background, View.VISIBLE)
-                        views.setInt(R.id.appwidget_background, "setBackgroundColor", widgetConfig.fullBackgroundColor)
+                        views.setInt(
+                            R.id.appwidget_background,
+                            "setBackgroundColor",
+                            widgetConfig.fullBackgroundColor
+                        )
                     } else {
                         views.setViewVisibility(R.id.appwidget_background, View.INVISIBLE)
                     }
@@ -113,7 +129,11 @@ class BatteryWidget : AppWidgetProvider() {
                     views.setTextColor(R.id.appwidget_text, widgetConfig.chargingTextColor)
                     if (widgetConfig.chargingBackgroundEnabled) {
                         views.setViewVisibility(R.id.appwidget_background, View.VISIBLE)
-                        views.setInt(R.id.appwidget_background, "setBackgroundColor", widgetConfig.chargingBackgroundColor)
+                        views.setInt(
+                            R.id.appwidget_background,
+                            "setBackgroundColor",
+                            widgetConfig.chargingBackgroundColor
+                        )
                     } else {
                         views.setViewVisibility(R.id.appwidget_background, View.INVISIBLE)
                     }
@@ -122,7 +142,11 @@ class BatteryWidget : AppWidgetProvider() {
                     views.setTextColor(R.id.appwidget_text, widgetConfig.lowTextColor)
                     if (widgetConfig.lowBackgroundEnabled) {
                         views.setViewVisibility(R.id.appwidget_background, View.VISIBLE)
-                        views.setInt(R.id.appwidget_background, "setBackgroundColor", widgetConfig.lowBackgroundColor)
+                        views.setInt(
+                            R.id.appwidget_background,
+                            "setBackgroundColor",
+                            widgetConfig.lowBackgroundColor
+                        )
                     } else {
                         views.setViewVisibility(R.id.appwidget_background, View.INVISIBLE)
                     }
@@ -131,7 +155,11 @@ class BatteryWidget : AppWidgetProvider() {
                     views.setTextColor(R.id.appwidget_text, widgetConfig.baseTextColor)
                     if (widgetConfig.baseBackgroundEnabled) {
                         views.setViewVisibility(R.id.appwidget_background, View.VISIBLE)
-                        views.setInt(R.id.appwidget_background, "setBackgroundColor", widgetConfig.baseBackgroundColor)
+                        views.setInt(
+                            R.id.appwidget_background,
+                            "setBackgroundColor",
+                            widgetConfig.baseBackgroundColor
+                        )
                     } else {
                         views.setViewVisibility(R.id.appwidget_background, View.INVISIBLE)
                     }
@@ -143,14 +171,24 @@ class BatteryWidget : AppWidgetProvider() {
                     Widget.ActionType.BATTERY -> {
                         val intent = Intent(Intent.ACTION_POWER_USAGE_SUMMARY)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        actionIntent = PendingIntent.getActivity(context, appWidgetId.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                        actionIntent = PendingIntent.getActivity(
+                            context,
+                            appWidgetId.hashCode(),
+                            intent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                        )
                     }
                     Widget.ActionType.CONFIG -> {
                         val appWidget = appWidgetManager.getAppWidgetInfo(appWidgetId)
                         val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE)
                         intent.component = appWidget.configure
                         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-                        actionIntent = PendingIntent.getActivity(context, appWidgetId.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                        actionIntent = PendingIntent.getActivity(
+                            context,
+                            appWidgetId.hashCode(),
+                            intent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                        )
                     }
                     Widget.ActionType.NONE -> {
                         actionIntent = null
